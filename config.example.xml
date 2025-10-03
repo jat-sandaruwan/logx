@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <users>
+        <!-- Example user configuration -->
+        <user id="admin" name="admin" username="root"/>
+        <user id="devuser" name="devuser" username="developer"/>
+    </users>
+    <apps>
+        <!-- Example app with date pattern: testapp-2025-09-10.log -->
+        <app name="testapp">
+            <user-ref>admin</user-ref>
+            <log-path>/logs/testapp/testapp.log</log-path>
+            <log-pattern>testapp-{date}.log</log-pattern>
+            <date-format>2006-01-02</date-format>
+            <servers>
+                <server>192.168.0.1</server>
+                <server>192.168.0.2</server>
+            </servers>
+        </app>
+
+        <!-- Example app with reverse date pattern: app.log-20250910 -->
+        <app name="webapp">
+            <user-ref>devuser</user-ref>
+            <log-path>/var/log/webapp/app.log</log-path>
+            <log-pattern>app.log-{date}</log-pattern>
+            <date-format>20060102</date-format>
+            <servers>
+                <server>10.0.0.5</server>
+            </servers>
+        </app>
+
+        <!-- Example app with single server -->
+        <app name="apiservice">
+            <user-ref>admin</user-ref>
+            <log-path>/opt/api/logs/api.log</log-path>
+            <log-pattern>api_{date}.log</log-pattern>
+            <date-format>2006_01_02</date-format>
+            <servers>
+                <server>172.16.0.10</server>
+            </servers>
+        </app>
+    </apps>
+
+    <!-- Optional: Custom editor command -->
+    <editor>code</editor>
+    <!-- Other options: notepad++, vim, nano, gedit, subl -->
+</config>
