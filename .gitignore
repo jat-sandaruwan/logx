@@ -4,8 +4,14 @@
 *.dll
 *.so
 *.dylib
-logx
-logx_*
+
+# Ignore only the binary in repo root
+/logx
+/logx.exe
+/logx_*
+
+# Keep source files in cmd/logx/
+!cmd/logx/
 
 # Build directory
 build/
