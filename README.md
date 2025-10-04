@@ -1,192 +1,239 @@
-# logx - Remote Log Viewer CLI
+# logx - Interactive Remote Log Viewer 🚀
 
-A command-line tool for viewing and managing log files from remote servers via SSH. Built with Go and Bubble Tea.
+A beautiful command-line tool with an interactive TUI for viewing and managing log files from remote servers via SSH. Built with Go and Bubble Tea.
 
-## Features
+## ✨ Features
 
-- 🔐 **Secure Credential Storage**: Uses system keyring (Windows Credential Manager, macOS Keychain, Linux Secret Service)
-- 🖥️ **Multi-Server Support**: Access logs from multiple servers with the same configuration
-- 📅 **Date-Based Log Rolling**: Support for various date formats in log filenames
-- ✏️ **Configurable Editors**: Use your preferred text editor (Notepad++, VS Code, vim, etc.)
-- 🎨 **Interactive TUI**: Beautiful terminal UI using Bubble Tea
-- 📝 **XML Configuration**: Easy-to-read configuration format
+### 🎨 Interactive Terminal UI
+- **Colorful menu navigation** with vim-style keybindings
+- **Internal log viewer** - view logs directly in your terminal
+- **Real-time search** with highlighted results
+- **Save logs locally** with a single keypress
+- **Intuitive navigation** using arrow keys or vim keys (j/k)
 
-## Installation
+### 🔐 Security
+- **System keyring integration** (Windows Credential Manager, macOS Keychain, Linux Secret Service)
+- **Secure credential storage** - passwords never stored in plain text
+- **SSH encrypted connections**
+
+### 📋 Log Management
+- **Multi-server support** - view logs from multiple servers simultaneously
+- **Date-based log rolling** - support for various date formats in filenames
+- **Pattern matching** - flexible log file naming patterns
+- **Search functionality** - find text across log files instantly
+
+### ⚙️ Configuration
+- **User management** - add, list, delete SSH users
+- **App management** - configure applications and their log locations
+- **Custom editors** - use your preferred text editor
+- **XML configuration** - easy-to-read and edit
+
+## 📦 Installation
 
 ### Prerequisites
-
 - Go 1.21 or higher
 - SSH access to remote servers
 
-### Build from Source
+### Quick Install
 
 ```bash
-git clone https://github.com/jatsandaruwan/logx.git
+# Clone the repository
+git clone https://github.com/jat-sandaruwan/logx.git
 cd logx
-go build -o logx cmd/logx/main.go
+
+# Build
+make build
+
+# Install system-wide (optional)
+sudo make install
 ```
 
-### Install Globally
+### Or use install script
 
 ```bash
-go install github.com/jatsandaruwan/logx/cmd/logx@latest
+chmod +x install.sh
+./install.sh
 ```
 
-Or copy the binary to your PATH:
+## 🚀 Quick Start
 
+### Launch Interactive TUI
+
+Simply run:
 ```bash
-# Linux/macOS
-sudo cp logx /usr/local/bin/
-
-# Windows
-# Copy logx.exe to C:\Windows\System32\ or add to PATH
+logx
 ```
 
-## Quick Start
+This launches the beautiful interactive menu where you can:
+1. **Manage Users** - Add/view/delete SSH credentials
+2. **Manage Apps** - Configure applications and log locations
+3. **View Logs** - Browse and view logs interactively
+4. **Settings** - Configure editor and preferences
 
-### 1. Add a User
+### Command-Line Mode
 
-First, add SSH credentials:
+You can also use traditional CLI commands:
 
 ```bash
+# User management
 logx user add
-```
-
-You'll be prompted for:
-- User name (identifier)
-- SSH username
-- SSH password
-
-### 2. Add an Application
-
-Configure an application's log location:
-
-```bash
-logx app add
-```
-
-You'll be prompted for:
-- App name
-- User (select from configured users)
-- Log file path (e.g., `/logs/testapp/testapp.log`)
-- Log filename pattern with `{date}` placeholder
-  - Example: `testapp-{date}.log`
-  - Example: `testapp.log-{date}`
-- Date format (Go format)
-  - `2006-01-02` → 2025-09-10
-  - `20060102` → 20250910
-  - `02-01-2006` → 10-09-2025
-- Server IPs (one per line, empty to finish)
-
-### 3. View Logs
-
-View current logs:
-```bash
-logx testapp
-```
-
-View logs for a specific date:
-```bash
-logx testapp 2025-09-10
-```
-
-View logs from a specific server:
-```bash
-logx testapp --server 192.168.0.1
-logx testapp 2025-09-10 --server 192.168.0.1
-```
-
-## Usage
-
-### User Management
-
-```bash
-# Add a new user
-logx user add
-
-# List all users
 logx user list
-
-# Delete a user
 logx user delete <username>
-```
 
-### Application Management
-
-```bash
-# Add a new application
+# App management
 logx app add
-
-# List all applications
 logx app list
-
-# Update an application
 logx app update <appname>
-
-# Delete an application
 logx app delete <appname>
-```
 
-### Editor Configuration
-
-```bash
-# Set custom editor
-logx editor set "code"
-logx editor set "notepad++"
-logx editor set "vim"
-
-# Show current editor
+# Editor configuration
+logx editor set code
 logx editor show
+
+# Show version
+logx version
+
+# Show help
+logx help
 ```
 
-### Viewing Logs
+## 🎮 Interactive TUI Usage
 
+### Main Menu Navigation
+
+```
+ ██╗      ██████╗  ██████╗ ██╗  ██╗
+ ██║     ██╔═══██╗██╔════╝ ╚██╗██╔╝
+ ██║     ██║   ██║██║  ███╗ ╚███╔╝ 
+ ██║     ██║   ██║██║   ██║ ██╔██╗ 
+ ███████╗╚██████╔╝╚██████╔╝██╔╝ ██╗
+ ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+    Remote Log Viewer v1.0.0
+
+👥 2 Users  •  📱 3 Apps
+
+  ▶ 👤 User Management
+    📱 App Management
+    📋 View Logs
+    ⚙️  Settings
+    ❌ Exit
+
+↑/↓: Navigate • Enter: Select • q: Quit
+```
+
+**Controls:**
+- `↑/↓` or `j/k` - Navigate menu items
+- `Enter` - Select option
+- `Esc` - Go back to previous menu
+- `q` or `Ctrl+C` - Quit
+
+### Log Viewer Features
+
+Once you select an app and view logs, you get a powerful internal viewer:
+
+```
+ 📋 server1.example.com - app-2025-10-04.log 
+
+   1  [INFO] Application started
+   2  [INFO] Connecting to database
+▶  3  [ERROR] Connection timeout
+   4  [INFO] Retrying connection
+   5  [INFO] Connected successfully
+
+ Line 3/1250 | Match 1/5 
+
+/: Search | n/N: Next/Prev | s: Save | q: Quit
+```
+
+**Viewer Controls:**
+
+| Key | Action |
+|-----|--------|
+| `↑/↓` or `j/k` | Navigate line by line |
+| `Ctrl+U` or `PgUp` | Page up |
+| `Ctrl+D` or `PgDn` | Page down |
+| `g` | Jump to top |
+| `G` | Jump to bottom |
+| `/` | Enter search mode |
+| `n` | Next search result |
+| `N` | Previous search result |
+| `s` | Save log to local file |
+| `q` or `Ctrl+C` | Close viewer |
+
+### Search Feature
+
+1. Press `/` to enter search mode
+2. Type your search query
+3. Press `Enter` to search
+4. Results are highlighted in yellow
+5. Use `n`/`N` to navigate between matches
+
+### Saving Logs
+
+Press `s` while viewing a log to save it locally. The file will be saved as:
+```
+server1.example.com_logs_app_app-2025-10-04.log.log
+```
+
+## 📝 Configuration
+
+### Adding a User
+
+**Via TUI:**
+1. Launch `logx`
+2. Select "User Management"
+3. Select "Add User"
+4. Follow the prompts
+
+**Via CLI:**
 ```bash
-# View current logs (all servers)
-logx <appname>
-
-# View logs for a specific date (all servers)
-logx <appname> <YYYY-MM-DD>
-
-# View logs from a specific server
-logx <appname> --server <IP>
-logx <appname> <YYYY-MM-DD> --server <IP>
+logx user add
+# Enter: User Name, SSH Username, SSH Password
 ```
 
-## Configuration
+### Adding an Application
 
-### Configuration File Location
+**Via TUI:**
+1. Launch `logx`
+2. Select "App Management"
+3. Select "Add App"
+4. Follow the interactive prompts
 
-- **Linux/macOS**: `~/.config/logx/config.xml`
-- **Windows**: `%APPDATA%\logx\config.xml`
+**Via CLI:**
+```bash
+logx app add
+```
 
-### Example Configuration
+You'll configure:
+- **App Name:** Identifier (e.g., `myapp`)
+- **User:** SSH user to use
+- **Log Path:** Base path (e.g., `/var/log/myapp/app.log`)
+- **Pattern:** Filename pattern with `{date}` (e.g., `app-{date}.log`)
+- **Date Format:** Go date format (e.g., `2006-01-02`)
+- **Servers:** IP addresses (one per line)
 
+### Configuration File
+
+Located at:
+- **Linux/macOS:** `~/.config/logx/config.xml`
+- **Windows:** `%APPDATA%\logx\config.xml`
+
+Example:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <users>
-    <user id="admin" name="admin" username="root"/>
-    <user id="devuser" name="devuser" username="developer"/>
+    <user id="prod" name="prod" username="root"/>
   </users>
   <apps>
-    <app name="testapp">
-      <user-ref>admin</user-ref>
-      <log-path>/logs/testapp/testapp.log</log-path>
-      <log-pattern>testapp-{date}.log</log-pattern>
+    <app name="webapp">
+      <user-ref>prod</user-ref>
+      <log-path>/var/log/webapp/app.log</log-path>
+      <log-pattern>app-{date}.log</log-pattern>
       <date-format>2006-01-02</date-format>
       <servers>
-        <server>192.168.0.1</server>
-        <server>192.168.0.2</server>
-      </servers>
-    </app>
-    <app name="webapp">
-      <user-ref>devuser</user-ref>
-      <log-path>/var/log/webapp/app.log</log-path>
-      <log-pattern>app.log-{date}</log-pattern>
-      <date-format>20060102</date-format>
-      <servers>
-        <server>10.0.0.5</server>
+        <server>192.168.1.10</server>
+        <server>192.168.1.11</server>
       </servers>
     </app>
   </apps>
@@ -194,123 +241,178 @@ logx <appname> <YYYY-MM-DD> --server <IP>
 </config>
 ```
 
-## Date Format Reference
+## 🎯 Use Cases
 
-Go uses a specific reference time for formatting: **Mon Jan 2 15:04:05 MST 2006**
-
-Common patterns:
-
-| Pattern | Output | Description |
-|---------|--------|-------------|
-| `2006-01-02` | 2025-09-10 | ISO 8601 format |
-| `20060102` | 20250910 | Compact format |
-| `02-01-2006` | 10-09-2025 | DD-MM-YYYY format |
-| `01/02/2006` | 09/10/2025 | US format |
-| `2006_01_02` | 2025_09_10 | Underscore format |
-
-## Security
-
-- **Credentials**: Stored securely in system keyring
-  - Windows: Windows Credential Manager
-  - macOS: Keychain
-  - Linux: Secret Service API (GNOME Keyring, KWallet)
-- **SSH**: Password authentication (SSH keys support can be added)
-- **Config File**: Stored with 0600 permissions (user read/write only)
-
-## Platform Support
-
-- ✅ Windows
-- ✅ macOS
-- ✅ Linux
-
-## Default Editors by Platform
-
-- **Windows**: Notepad++ → Notepad
-- **macOS**: VS Code → Sublime Text → TextEdit
-- **Linux**: VS Code → gedit → kate → nano → vim
-
-## Troubleshooting
-
-### SSH Connection Failures
-
-- Verify server IP and port (default: 22)
-- Check username and password
-- Ensure SSH service is running on remote server
-- Check firewall rules
-
-### Log Files Not Found
-
-- Verify log path is correct
-- Check date format matches actual log filename
-- Ensure log pattern includes `{date}` placeholder
-- Verify user has read permissions on remote server
-
-### Editor Not Opening
-
-- Set a custom editor: `logx editor set <editor>`
-- Ensure the editor is in your PATH
-- For Windows Notepad++, verify installation path
-
-## Development
-
-### Project Structure
-
-```
-logx/
-├── cmd/
-│   └── logx/           # Main CLI entry point
-│       └── main.go
-├── internal/
-│   ├── config/         # XML configuration
-│   │   └── config.go
-│   ├── editor/         # Editor handling
-│   │   └── editor.go
-│   ├── ssh/            # SSH connections
-│   │   └── ssh.go
-│   ├── ui/             # Bubble Tea UI
-│   │   ├── app.go
-│   │   └── user.go
-│   ├── vault/          # Credential storage
-│   │   └── vault.go
-│   └── viewer/         # Log viewing
-│       └── viewer.go
-├── go.mod
-├── go.sum
-└── README.md
-```
-
-### Dependencies
-
-- `github.com/charmbracelet/bubbletea` - TUI framework
-- `github.com/charmbracelet/lipgloss` - Styling
-- `github.com/zalando/go-keyring` - System keyring access
-- `golang.org/x/crypto/ssh` - SSH client
-- `golang.org/x/term` - Terminal utilities
-
-### Building
+### Scenario 1: View Today's Logs
 
 ```bash
-# Build for current platform
-go build -o logx cmd/logx/main.go
-
-# Build for specific platform
-GOOS=linux GOARCH=amd64 go build -o logx-linux cmd/logx/main.go
-GOOS=windows GOARCH=amd64 go build -o logx.exe cmd/logx/main.go
-GOOS=darwin GOARCH=amd64 go build -o logx-darwin cmd/logx/main.go
+logx
+# Select "View Logs"
+# Choose your app
+# Select "All Servers" or specific server
+# Press Enter (defaults to today)
 ```
 
-## Contributing
+### Scenario 2: Search for Errors
+
+1. View a log file
+2. Press `/`
+3. Type `ERROR`
+4. Press `Enter`
+5. Use `n` to navigate through all errors
+
+### Scenario 3: Compare Logs from Multiple Servers
+
+1. View logs from Server 1
+2. Press `s` to save
+3. Press `q` to exit
+4. View logs from Server 2
+5. Press `s` to save
+6. Open both files in your editor for comparison
+
+### Scenario 4: Historical Log Analysis
+
+```bash
+logx
+# Select "View Logs"
+# Choose your app
+# Choose server
+# Enter date: 2025-09-15
+# View, search, and save as needed
+```
+
+## 🎨 Customization
+
+### Custom Editor
+
+**Via TUI:**
+1. Settings → Set Editor
+2. Enter editor command
+
+**Via CLI:**
+```bash
+logx editor set "code -w"
+logx editor set "vim"
+logx editor set "notepad++"
+```
+
+### Color Scheme
+
+The TUI uses a carefully chosen color palette:
+- **Primary:** Purple (`#7D56F4`)
+- **Success:** Green (`#04B575`)
+- **Warning:** Orange (`#FFA500`)
+- **Error:** Red (`#FF0000`)
+- **Highlight:** Yellow (for search results)
+
+## 🔧 Troubleshooting
+
+### TUI Not Displaying Correctly
+
+```bash
+# Ensure terminal supports colors
+echo $TERM
+# Should be: xterm-256color or similar
+
+# If not, set it:
+export TERM=xterm-256color
+```
+
+### SSH Connection Issues
+
+1. Test SSH manually first:
+   ```bash
+   ssh username@server
+   ```
+
+2. Check firewall rules
+3. Verify credentials in keyring
+
+### Log File Not Found
+
+1. Verify the log path exists on the server
+2. Check date format matches actual files
+3. Ensure pattern contains `{date}` placeholder
+4. Test with `logx app list` to view configuration
+
+### Search Not Working
+
+- Search is case-insensitive
+- Ensure you press `Enter` after typing query
+- Try simpler search terms
+
+## 📊 Date Format Reference
+
+| Format | Output | Use Case |
+|--------|--------|----------|
+| `2006-01-02` | 2025-10-04 | ISO 8601 |
+| `20060102` | 20251004 | Compact |
+| `02-01-2006` | 04-10-2025 | DD-MM-YYYY |
+| `01/02/2006` | 10/04/2025 | US format |
+| `2006_01_02` | 2025_10_04 | Underscore |
+| `2006-01` | 2025-10 | Monthly logs |
+| `2006` | 2025 | Yearly logs |
+
+## 🚀 Advanced Features
+
+### Parallel Viewing (Coming Soon)
+- View multiple log files side-by-side
+- Real-time log tailing
+- Log diff mode
+
+### Filtering (Coming Soon)
+- Filter by log level (INFO, WARN, ERROR)
+- Time range filtering
+- Custom regex filters
+
+### Export Options (Coming Soon)
+- Export search results
+- Generate reports
+- Email/Slack notifications
+
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
+### Development Setup
 
-MIT License
+```bash
+git clone https://github.com/jat-sandaruwan/logx.git
+cd logx
+go mod download
+go build -o logx cmd/logx/main.go
+```
 
-## Author
+### Adding New Features
 
-Thilina Sandaruwan
+Key files:
+- `internal/ui/*.go` - TUI components
+- `internal/viewer/viewer.go` - Log viewer
+- `cmd/logx/main.go` - CLI entry point
 
-## Support
+## 📄 License
 
-For issues and feature requests, please create an issue on GitHub.
+MIT License - see LICENSE.md
+
+## 👤 Author
+
+**Thilina Sandaruwan**
+
+## 🌟 Acknowledgments
+
+- [Bubble Tea](https://github.com/charmbracelet/bubbletea) - TUI framework
+- [Lipgloss](https://github.com/charmbracelet/lipgloss) - Terminal styling
+- [go-keyring](https://github.com/zalando/go-keyring) - Secure credential storage
+
+## 📞 Support
+
+- **Issues:** https://github.com/jat-sandaruwan/logx/issues
+- **Discussions:** https://github.com/jat-sandaruwan/logx/discussions
+
+## 🎉 Star the Project
+
+If you find logx useful, please give it a ⭐️ on GitHub!
+
+---
+
+**Made with ❤️ for developers who love beautiful CLIs**
